@@ -1,0 +1,6 @@
+.gitignore
+.prettierignore
+pdfkit.standalone.js
+blob-stream.js
+SVG-to-PDFKit.js
+*.pdf
