@@ -1,9 +1,12 @@
-let urls = []
+let map = {}
 
 chrome.webRequest.onCompleted.addListener(
   msg => {
     if (msg.initiator === 'https://musescore.com' && msg.url) {
-      urls.push(msg.url.replace(/[\?@].*/, ''))
+      const url = msg.url
+      const scoreId = getScoreIdFromUrl(url)
+      map[scoreId] = map[scoreId] || []
+      map[scoreId].push(msg.url.replace(/[\?@].*/, ''))
     }
   },
   {
@@ -15,8 +18,14 @@ chrome.webRequest.onCompleted.addListener(
   ['responseHeaders'],
 )
 
+function getScoreIdFromUrl(url) {
+  const matched = url.match(/(scores|gen\/\d+\/\d+\/\d+)\/(\d+)/)
+  return matched && matched[2]
+}
+
 chrome.pageAction.onClicked.addListener(async tab => {
-  urls = [...new Set(urls)].sort()
+  const scoreId = getScoreIdFromUrl(tab.url)
+  const urls = [...new Set(map[scoreId])].sort()
   const doc = new PDFDocument({ autoFirstPage: false })
   const stream = doc.pipe(blobStream())
   if (urls[0] && urls[0].endsWith('.svg')) {
