@@ -23,18 +23,32 @@ function getScoreIdFromUrl(url) {
   return matched && matched[2]
 }
 
+function cleanUpUrls(urls) {
+  urls = [...new Set(urls)].sort()
+  if (urls.find(url => url.endsWith('svg'))) {
+    return {
+      type: 'svg',
+      urls: urls.filter(url => url.endsWith('svg')),
+    }
+  }
+  return {
+    type: 'png',
+    urls,
+  }
+}
+
 chrome.pageAction.onClicked.addListener(async tab => {
   const scoreId = getScoreIdFromUrl(tab.url)
-  const urls = [...new Set(map[scoreId])].sort()
+  const { type, urls } = cleanUpUrls(map[scoreId])
   const doc = new PDFDocument({ autoFirstPage: false })
   const stream = doc.pipe(blobStream())
-  if (urls[0] && urls[0].endsWith('.svg')) {
+  if (type === 'svg') {
     const svgs = await Promise.all(urls.map(url => fetch(url).then(response => response.text())))
     for (const svg of svgs) {
       doc.addPage()
       SVGtoPDF(doc, svg.replace(/width="\d+px"/, '').replace(/height="\d+px"/, ''), 0, 0)
     }
-  } else if (urls[0] && urls[0].endsWith('.png')) {
+  } else if (type === 'png') {
     const pngs = await Promise.all(
       urls.map(url => fetch(url).then(response => response.arrayBuffer())),
     )
