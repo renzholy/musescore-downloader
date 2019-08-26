@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "MuseScore Downloader",
+  "version": "0.0.1",
+  "homepage_url": "https://github.com/RenzHoly/musescore-downloader",
+  "background": {
+    "page": "background.html"
+  },
+  "permissions": [
+    "downloads",
+    "webRequest",
+    "declarativeContent",
+    "*://musescore.com/user/*/scores/*"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "page_action": {}
+}
