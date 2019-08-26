@@ -13,7 +13,7 @@ chrome.webRequest.onCompleted.addListener(
   ['responseHeaders'],
 )
 
-chrome.pageAction.onClicked.addListener(async () => {
+chrome.pageAction.onClicked.addListener(async tab => {
   urls = [...new Set(urls)].sort()
   const svgs = await Promise.all(urls.map(url => fetch(url).then(response => response.text())))
   const doc = new PDFDocument({ autoFirstPage: false })
@@ -25,7 +25,10 @@ chrome.pageAction.onClicked.addListener(async () => {
   doc.end()
   stream.on('finish', () => {
     const url = stream.toBlobURL('application/pdf')
-    chrome.downloads.download({ url })
+    chrome.downloads.download({
+      filename: `${tab.title.replace(/ sheet music for Piano .*/, '')}.pdf`,
+      url,
+    })
   })
 })
 
