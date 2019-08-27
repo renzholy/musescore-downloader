@@ -1,45 +1,15 @@
-let map = {}
-
-chrome.webRequest.onCompleted.addListener(
-  msg => {
-    if (msg.initiator === 'https://musescore.com' && msg.url) {
-      const url = msg.url
-      const scoreId = getScoreIdFromUrl(url)
-      map[scoreId] = map[scoreId] || []
-      map[scoreId].push(msg.url.replace(/[\?@].*/, ''))
-    }
-  },
-  {
-    urls: [
-      '*://musescore.com/static/musescore/scoredata/gen/*.svg*',
-      '*://musescore.com/static/musescore/scoredata/gen/*.png*',
-    ],
-  },
-  ['responseHeaders'],
-)
-
-function getScoreIdFromUrl(url) {
-  const matched = url.match(/(scores|gen\/\d+\/\d+\/\d+)\/(\d+)/)
-  return matched && matched[2]
-}
-
-function cleanUpUrls(urls) {
-  urls = [...new Set(urls)].sort()
-  if (urls.find(url => url.endsWith('svg'))) {
-    return {
-      type: 'svg',
-      urls: urls.filter(url => url.endsWith('svg')),
-    }
+chrome.runtime.onMessage.addListener(async (message, sender) => {
+  const array = []
+  for (let page = 0; page < message.json.metadata.pages; page++) {
+    array.push(
+      `${message.urls.image_path}score_${page}.${message.render_vector ? 'svg' : 'png'}`.replace(
+        /[\?@].*/,
+        '',
+      ),
+    )
   }
-  return {
-    type: 'png',
-    urls,
-  }
-}
 
-chrome.pageAction.onClicked.addListener(async tab => {
-  const scoreId = getScoreIdFromUrl(tab.url)
-  const { type, urls } = cleanUpUrls(map[scoreId])
+  const { type, urls } = cleanUpUrls(array)
   const doc = new PDFDocument({ autoFirstPage: false })
   const stream = doc.pipe(blobStream())
   if (type === 'svg') {
@@ -62,14 +32,35 @@ chrome.pageAction.onClicked.addListener(async tab => {
     }
   }
   doc.end()
+
   stream.on('finish', () => {
     const url = stream.toBlobURL('application/pdf')
     chrome.downloads.download({
-      filename: `${tab.title.replace(/ sheet music for Piano .*/, '')}.pdf`,
+      filename: `${sender.tab.title.replace(/ sheet music for Piano .*/, '')}.pdf`,
       url,
     })
   })
 })
+
+chrome.pageAction.onClicked.addListener(() => {
+  chrome.tabs.executeScript({
+    file: 'inject.js',
+  })
+})
+
+function cleanUpUrls(urls) {
+  urls = [...new Set(urls)].sort()
+  if (urls.find(url => url.endsWith('svg'))) {
+    return {
+      type: 'svg',
+      urls: urls.filter(url => url.endsWith('svg')),
+    }
+  }
+  return {
+    type: 'png',
+    urls,
+  }
+}
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.declarativeContent.onPageChanged.removeRules(undefined, () => {
