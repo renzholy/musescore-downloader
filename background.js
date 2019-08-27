@@ -54,7 +54,11 @@ chrome.pageAction.onClicked.addListener(async tab => {
     )
     for (const png of pngs) {
       doc.addPage()
-      doc.image(png, 0, 0, { fit: [612, 792] })
+      doc.image(png, 0, 0, {
+        fit: [612, 792],
+        align: 'center',
+        valign: 'center',
+      })
     }
   }
   doc.end()
