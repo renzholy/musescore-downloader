@@ -9,7 +9,8 @@
   },
   "homepage_url": "https://github.com/RenzHoly/musescore-downloader",
   "background": {
-    "page": "background.html"
+    "page": "background.html",
+    "persistent": false
   },
   "permissions": ["activeTab", "declarativeContent", "downloads", "*://musescore.com/*/scores/*"],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
