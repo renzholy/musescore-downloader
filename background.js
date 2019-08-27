@@ -36,7 +36,7 @@ chrome.runtime.onMessage.addListener(async message => {
   stream.on('finish', () => {
     const url = stream.toBlobURL('application/pdf')
     chrome.downloads.download({
-      filename: `${message.json.metadata.title}.pdf`,
+      filename: `${message.json.metadata.title.replace(/\n/g, ' ')}.pdf`,
       url,
     })
   })
