@@ -16,7 +16,7 @@ chrome.runtime.onMessage.addListener(async (message, sender) => {
     const svgs = await Promise.all(urls.map(url => fetch(url).then(response => response.text())))
     for (const svg of svgs) {
       doc.addPage()
-      SVGtoPDF(doc, svg.replace(/width="\d+px"/, '').replace(/height="\d+px"/, ''), 0, 0)
+      SVGtoPDF(doc, svg.replace(/width=".+px"/, '').replace(/height=".+px"/, ''), 0, 0)
     }
   } else if (type === 'png') {
     const pngs = await Promise.all(
@@ -69,7 +69,7 @@ chrome.runtime.onInstalled.addListener(() => {
         conditions: [
           new chrome.declarativeContent.PageStateMatcher({
             pageUrl: {
-              urlMatches: 'musescore\\.com/user/.*/scores/.*',
+              urlMatches: 'musescore\\.com/.*/scores/.*',
             },
           }),
         ],
