@@ -12,10 +12,13 @@ chrome.runtime.onMessage.addListener(async message => {
   const { type, urls } = cleanUpUrls(array)
   const doc = new PDFDocument({ autoFirstPage: false })
   const stream = doc.pipe(blobStream())
+  const [width, height] = message.json.metadata.dimensions.split('x').map(size => parseInt(size))
   if (type === 'svg') {
     const svgs = await Promise.all(urls.map(url => fetch(url).then(response => response.text())))
     for (const svg of svgs) {
-      doc.addPage()
+      doc.addPage({
+        size: [width, height],
+      })
       SVGtoPDF(doc, svg.replace(/width=".+px"/, '').replace(/height=".+px"/, ''), 0, 0)
     }
   } else if (type === 'png') {
@@ -23,9 +26,11 @@ chrome.runtime.onMessage.addListener(async message => {
       urls.map(url => fetch(url).then(response => response.arrayBuffer())),
     )
     for (const png of pngs) {
-      doc.addPage()
+      doc.addPage({
+        size: [width, height],
+      })
       doc.image(png, 0, 0, {
-        fit: [612, 792],
+        fit: [width, height],
         align: 'center',
         valign: 'center',
       })
