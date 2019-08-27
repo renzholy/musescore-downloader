@@ -1,4 +1,4 @@
-chrome.runtime.onMessage.addListener(async (message, sender) => {
+chrome.runtime.onMessage.addListener(async message => {
   const array = []
   for (let page = 0; page < message.json.metadata.pages; page++) {
     array.push(
@@ -36,7 +36,7 @@ chrome.runtime.onMessage.addListener(async (message, sender) => {
   stream.on('finish', () => {
     const url = stream.toBlobURL('application/pdf')
     chrome.downloads.download({
-      filename: `${sender.tab.title.replace(/ sheet music for Piano .*/, '')}.pdf`,
+      filename: `${message.json.metadata.title}.pdf`,
       url,
     })
   })
@@ -68,7 +68,7 @@ chrome.runtime.onInstalled.addListener(() => {
         conditions: [
           new chrome.declarativeContent.PageStateMatcher({
             pageUrl: {
-              urlMatches: 'musescore\\.com/.*/scores/.*',
+              urlMatches: 'musescore\\.com/.*/.*',
             },
           }),
         ],
