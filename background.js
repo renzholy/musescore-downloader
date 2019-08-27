@@ -49,7 +49,6 @@ chrome.pageAction.onClicked.addListener(() => {
 })
 
 function cleanUpUrls(urls) {
-  urls = [...new Set(urls)].sort()
   if (urls.find(url => url.endsWith('svg'))) {
     return {
       type: 'svg',
