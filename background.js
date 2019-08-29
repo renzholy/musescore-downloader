@@ -1,3 +1,16 @@
+function cleanUpUrls(urls) {
+  if (urls.find(url => url.endsWith('svg'))) {
+    return {
+      type: 'svg',
+      urls: urls.filter(url => url.endsWith('svg')),
+    }
+  }
+  return {
+    type: 'png',
+    urls,
+  }
+}
+
 chrome.runtime.onMessage.addListener(async message => {
   const array = []
   for (let page = 0; page < message.json.metadata.pages; page++) {
@@ -52,19 +65,6 @@ chrome.pageAction.onClicked.addListener(() => {
     file: 'inject.js',
   })
 })
-
-function cleanUpUrls(urls) {
-  if (urls.find(url => url.endsWith('svg'))) {
-    return {
-      type: 'svg',
-      urls: urls.filter(url => url.endsWith('svg')),
-    }
-  }
-  return {
-    type: 'png',
-    urls,
-  }
-}
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.declarativeContent.onPageChanged.removeRules(undefined, () => {
