@@ -2,3 +2,4 @@
 *.pdf
 lib/
 icons/
+.DS_Store
