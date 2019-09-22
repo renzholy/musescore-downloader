@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "MuseScore Downloader",
-  "description": "Download free sheet as PDF from musescore.com with a single click",
+  "description": "Download sheet from musescore.com for free",
   "version": "1.0.0",
   "icons": {
     "16": "icons/icon16.png",
