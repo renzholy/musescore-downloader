@@ -13,7 +13,7 @@
       if (type === 'PDF' || type === 'MIDI' || type === 'MP3') {
         const a = document.createElement('a')
         a.innerText = ` [Free ${type}]`
-        a.style.color = 'purple'
+        a.style.color = 'green'
         a.onclick = () =>
           document.dispatchEvent(
             new CustomEvent('musescore-download-type', {
