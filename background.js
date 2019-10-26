@@ -12,6 +12,26 @@ function cleanUpUrls(urls) {
 }
 
 chrome.runtime.onMessage.addListener(async message => {
+  const filename = message.json.metadata.title.replace(/\n/g, ' ')
+
+  console.log(message)
+
+  if (message.type === 'MIDI') {
+    chrome.downloads.download({
+      filename: `${filename}.midi`,
+      url: message.urls.midi,
+    })
+    return
+  }
+
+  if (message.type === 'MP3') {
+    chrome.downloads.download({
+      filename: `${filename}.mp3`,
+      url: message.urls.mp3,
+    })
+    return
+  }
+
   const array = []
   for (let page = 0; page < message.json.metadata.pages; page++) {
     array.push(
@@ -54,7 +74,7 @@ chrome.runtime.onMessage.addListener(async message => {
   stream.on('finish', () => {
     const url = stream.toBlobURL('application/pdf')
     chrome.downloads.download({
-      filename: `${message.json.metadata.title.replace(/\n/g, ' ')}.pdf`,
+      filename: `${filename}.pdf`,
       url,
     })
   })
@@ -62,7 +82,7 @@ chrome.runtime.onMessage.addListener(async message => {
 
 chrome.pageAction.onClicked.addListener(() => {
   chrome.tabs.executeScript({
-    file: 'inject.js',
+    file: 'click.js',
   })
 })
 

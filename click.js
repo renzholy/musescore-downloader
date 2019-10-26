@@ -8,10 +8,10 @@ function injectScript(file_path, tag) {
   }
   node.appendChild(script)
 }
-injectScript(chrome.extension.getURL('contentScript.js'), 'body')
-if (!onMuseScoreDownloadType) {
-  function onMuseScoreDownloadType(e) {
-    chrome.runtime.sendMessage(e.detail)
+injectScript(chrome.extension.getURL('content.js'), 'body')
+if (!onMuseScoreDownloadReady) {
+  function onMuseScoreDownloadReady(e) {
+    chrome.runtime.sendMessage({ ...e.detail, type: e.type })
   }
-  document.addEventListener('musescore-download-type', onMuseScoreDownloadType)
+  document.addEventListener('musescore-download-ready', onMuseScoreDownloadReady)
 }
