@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "MuseScore Downloader",
-  "description": "Download sheet from musescore.com for free",
+  "description": "Download sheet/midi/mp3 from musescore.com for free",
   "version": "2.0.0",
   "icons": {
     "16": "icons/icon16.png",
