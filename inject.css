@@ -1,3 +1,7 @@
-.js-score-download-status {
+aside section div[direction='row'] button[state='primary'][align='left'] {
   background-color: green !important;
+}
+
+a.musescore-free {
+  cursor: pointer;
 }
