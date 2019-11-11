@@ -12,9 +12,16 @@ function cleanUpUrls(urls) {
 }
 
 chrome.runtime.onMessage.addListener(async message => {
-  const filename = message.json.metadata.title.replace(/\n/g, ' ')
-
   console.log(message)
+
+  if (message.action === 'inject') {
+    chrome.tabs.executeScript({
+      file: `inject-${message.type.toLowerCase()}.js`,
+    })
+    return
+  }
+
+  const filename = message.json.metadata.title.replace(/\n/g, ' ')
 
   if (message.type === 'MIDI') {
     chrome.downloads.download({
@@ -77,12 +84,6 @@ chrome.runtime.onMessage.addListener(async message => {
       filename: `${filename}.pdf`,
       url,
     })
-  })
-})
-
-chrome.pageAction.onClicked.addListener(() => {
-  chrome.tabs.executeScript({
-    file: 'click.js',
   })
 })
 

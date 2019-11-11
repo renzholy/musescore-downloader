@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Popup</title>
+    <style>
+      body {
+        padding: 5px;
+      }
+
+      div {
+        padding: 7px 14px;
+        font-size: 16px;
+        cursor: pointer;
+        background: #1f74bd;
+        color: #fff;
+      }
+
+      div + div {
+        margin-top: 5px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="pdf">PDF</div>
+    <div id="midi">MIDI</div>
+    <div id="mp3">MP3</div>
+    <script src="./popup.js" type="module"></script>
+  </body>
+</html>
