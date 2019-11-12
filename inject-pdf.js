@@ -11,9 +11,12 @@ function injectScript(file_path, tag) {
 
 injectScript(chrome.extension.getURL('content.js'), 'body')
 
-if (!onMuseScoreDownloadPdfReady) {
-  function onMuseScoreDownloadPdfReady(e) {
+if (!onMuseScoreDownloadReady) {
+  function onMuseScoreDownloadReady(e) {
     chrome.runtime.sendMessage({ ...e.detail, type: 'PDF' })
+    if (onMuseScoreDownloadReady) {
+      document.removeEventListener('musescore-download-ready', onMuseScoreDownloadReady)
+    }
   }
-  document.addEventListener('musescore-download-ready', onMuseScoreDownloadPdfReady)
+  document.addEventListener('musescore-download-ready', onMuseScoreDownloadReady)
 }
