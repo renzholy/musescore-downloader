@@ -11,12 +11,10 @@ function injectScript(file_path, tag) {
 
 injectScript(chrome.extension.getURL('content.js'), 'body')
 
-if (!onMuseScoreDownloadReady) {
-  function onMuseScoreDownloadReady(e) {
+;(function() {
+  let onMuseScoreDownloadReady = e => {
     chrome.runtime.sendMessage({ ...e.detail, type: 'MIDI' })
-    if (onMuseScoreDownloadReady) {
-      document.removeEventListener('musescore-download-ready', onMuseScoreDownloadReady)
-    }
+    document.removeEventListener('musescore-download-ready', onMuseScoreDownloadReady)
   }
   document.addEventListener('musescore-download-ready', onMuseScoreDownloadReady)
-}
+})()
