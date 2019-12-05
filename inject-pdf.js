@@ -12,7 +12,7 @@ function injectScript(file_path, tag) {
 injectScript(chrome.extension.getURL('content.js'), 'body')
 ;(function() {
   let onMuseScoreDownloadReady = e => {
-    chrome.runtime.sendMessage({ ...e.detail, type: 'PDF' })
+    chrome.runtime.sendMessage({ detail: e.detail, type: 'PDF' })
     document.removeEventListener('musescore-download-ready', onMuseScoreDownloadReady)
   }
   document.addEventListener('musescore-download-ready', onMuseScoreDownloadReady)

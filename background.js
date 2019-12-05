@@ -12,8 +12,6 @@ function cleanUpUrls(urls) {
 }
 
 chrome.runtime.onMessage.addListener(async message => {
-  console.log(message)
-
   if (message.action === 'inject') {
     chrome.tabs.executeScript({
       file: `inject-${message.type.toLowerCase()}.js`,
@@ -21,12 +19,14 @@ chrome.runtime.onMessage.addListener(async message => {
     return
   }
 
-  const filename = message.json.metadata.title.replace(/\n/g, ' ')
+  const detail = JSON.parse(message.detail)
+  console.log(detail)
+  const filename = detail.json.metadata.title.replace(/\n/g, ' ')
 
   if (message.type === 'MIDI') {
     chrome.downloads.download({
       filename: `${filename}.midi`,
-      url: message.urls.midi,
+      url: detail.urls.midi,
     })
     return
   }
@@ -34,15 +34,15 @@ chrome.runtime.onMessage.addListener(async message => {
   if (message.type === 'MP3') {
     chrome.downloads.download({
       filename: `${filename}.mp3`,
-      url: message.urls.mp3,
+      url: detail.urls.mp3,
     })
     return
   }
 
   const array = []
-  for (let page = 0; page < message.json.metadata.pages; page++) {
+  for (let page = 0; page < detail.json.metadata.pages; page++) {
     array.push(
-      `${message.urls.image_path}score_${page}.${message.render_vector ? 'svg' : 'png'}`.replace(
+      `${detail.urls.image_path}score_${page}.${detail.render_vector ? 'svg' : 'png'}`.replace(
         /[\?@].*/,
         '',
       ),
@@ -52,7 +52,7 @@ chrome.runtime.onMessage.addListener(async message => {
   const { type, urls } = cleanUpUrls(array)
   const doc = new PDFDocument({ autoFirstPage: false })
   const stream = doc.pipe(blobStream())
-  const [width, height] = message.json.metadata.dimensions.split('x').map(size => parseInt(size))
+  const [width, height] = detail.json.metadata.dimensions.split('x').map(size => parseInt(size))
   if (type === 'svg') {
     const svgs = await Promise.all(urls.map(url => fetch(url).then(response => response.text())))
     for (const svg of svgs) {
@@ -94,7 +94,7 @@ chrome.runtime.onInstalled.addListener(() => {
         conditions: [
           new chrome.declarativeContent.PageStateMatcher({
             pageUrl: {
-              urlMatches: 'musescore\\.com/.*/.*',
+              urlMatches: 'musescore\\.com',
             },
           }),
         ],

@@ -12,7 +12,7 @@ function injectScript(file_path, tag) {
 injectScript(chrome.extension.getURL('content.js'), 'body')
 ;(function() {
   let onMuseScoreDownloadReady = e => {
-    chrome.runtime.sendMessage({ ...e.detail, type: 'MIDI' })
+    chrome.runtime.sendMessage({ detail: e.detail, type: 'MIDI' })
     document.removeEventListener('musescore-download-ready', onMuseScoreDownloadReady)
   }
   document.addEventListener('musescore-download-ready', onMuseScoreDownloadReady)
