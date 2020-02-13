@@ -1,5 +1,7 @@
 .*ignore
-*.pdf
+*.svg
+*.png
 lib/
 icons/
 .DS_Store
+*.min.css
