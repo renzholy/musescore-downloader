@@ -5,79 +5,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Popup</title>
+    <link href="./tailwind.min.css" rel="stylesheet" />
     <style>
       body {
         padding: 10px;
       }
 
-      .bmc-button img {
-        width: 35px !important;
-        margin-bottom: 1px !important;
-        box-shadow: none !important;
-        border: none !important;
-        vertical-align: middle !important;
-      }
-
-      .bmc-button {
-        padding: 7px 5px 7px 10px !important;
-        line-height: 35px !important;
-        height: 51px !important;
-        min-width: 217px !important;
-        text-decoration: none !important;
-        display: inline-flex !important;
-        color: #ffffff !important;
-        background-color: #ff813f !important;
-        border-radius: 5px !important;
-        border: 1px solid transparent !important;
-        padding: 7px 5px 7px 10px !important;
-        font-size: 28px !important;
-        letter-spacing: 0.6px !important;
-        box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;
-        -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
-        margin: 0 auto !important;
-        font-family: 'Cookie', cursive !important;
-        -webkit-box-sizing: border-box !important;
-        box-sizing: border-box !important;
-        -o-transition: 0.3s all linear !important;
-        -webkit-transition: 0.3s all linear !important;
-        -moz-transition: 0.3s all linear !important;
-        -ms-transition: 0.3s all linear !important;
-        transition: 0.3s all linear !important;
-      }
-
-      .bmc-button:hover,
-      .bmc-button:active,
-      .bmc-button:focus {
-        -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
-        text-decoration: none !important;
-        box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
-        opacity: 0.85 !important;
-        color: #ffffff !important;
-      }
-
-      .download .bmc-button {
-        margin-bottom: 20px !important;
-        background-color: #1f74bd !important;
-        cursor: pointer;
+      .download {
+        width: 150px;
+        display: flex;
+        flex-direction: column;
       }
     </style>
   </head>
 
   <body>
     <div class="download">
-      <div class="bmc-button" id="pdf">Download pdf</div>
-      <div class="bmc-button" id="midi">Download midi</div>
-      <div class="bmc-button" id="mp3">Download mp3</div>
+      <button
+        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+        id="pdf"
+      >
+        <svg
+          class="fill-current w-4 h-4 mr-2"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+        >
+          <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
+        </svg>
+        Download PDF
+      </button>
+      <button
+        class="mt-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+        id="midi"
+      >
+        <svg
+          class="fill-current w-4 h-4 mr-2"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+        >
+          <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
+        </svg>
+        Download MIDI
+      </button>
+      <button
+        class="mt-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+        id="mp3"
+      >
+        <svg
+          class="fill-current w-4 h-4 mr-2"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+        >
+          <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
+        </svg>
+        Download MP3
+      </button>
+      <a
+        class="mt-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+        style="cursor: pointer;"
+        href="https://twitter.com/RenzHoly"
+        target="_blank"
+      >
+        <img src="./twitter.png" width="20" height="20" class="fill-current w-4 h-4 mr-2" />
+        Follow me
+      </a>
+      <a
+        class="mt-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+        style="cursor: pointer;"
+        href="https://t.me/joinchat/AAAAAEo4lA26TJhDVe6o-Q"
+        target="_blank"
+      >
+        <img src="./t_logo.png" width="20" height="20" class="fill-current w-4 h-4 mr-2" />
+        Join channel
+      </a>
+      <a
+        class="mt-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+        style="cursor: pointer;"
+        href="https://www.buymeacoffee.com/renzholy"
+        target="_blank"
+      >
+        <img
+          src="./bmc-new-btn-logo.svg"
+          width="20"
+          height="20"
+          class="fill-current w-4 h-4 mr-2"
+        />
+        Buy me a coffee
+      </a>
     </div>
-    <link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" /><a
-      class="bmc-button"
-      target="_blank"
-      href="https://www.buymeacoffee.com/renzholy"
-      ><img
-        src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg"
-        alt="Buy me a coffee"
-      /><span style="margin-left:15px;font-size:28px !important;">Buy me a coffee</span></a
-    >
     <script src="./popup.js" type="module"></script>
   </body>
 </html>
