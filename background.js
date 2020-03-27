@@ -1,8 +1,8 @@
 function cleanUpUrls(urls) {
-  if (urls.find(url => url.endsWith('svg'))) {
+  if (urls.find((url) => url.endsWith('svg'))) {
     return {
       type: 'svg',
-      urls: urls.filter(url => url.endsWith('svg')),
+      urls: urls.filter((url) => url.endsWith('svg')),
     }
   }
   return {
@@ -11,7 +11,7 @@ function cleanUpUrls(urls) {
   }
 }
 
-chrome.runtime.onMessage.addListener(async message => {
+chrome.runtime.onMessage.addListener(async (message) => {
   if (message.action === 'inject') {
     chrome.tabs.executeScript({
       file: `inject-${message.type.toLowerCase()}.js`,
@@ -52,9 +52,11 @@ chrome.runtime.onMessage.addListener(async message => {
   const { type, urls } = cleanUpUrls(array)
   const doc = new PDFDocument({ autoFirstPage: false })
   const stream = doc.pipe(blobStream())
-  const [width, height] = detail.json.metadata.dimensions.split('x').map(size => parseInt(size))
+  const [width, height] = detail.json.metadata.dimensions.split('x').map((size) => parseInt(size))
   if (type === 'svg') {
-    const svgs = await Promise.all(urls.map(url => fetch(url).then(response => response.text())))
+    const svgs = await Promise.all(
+      urls.map((url) => fetch(url).then((response) => response.text())),
+    )
     for (const svg of svgs) {
       const matchedWidth = svg.match(/width="(.+px|\d+\.\d+)"/)
       const width2 =
@@ -71,7 +73,7 @@ chrome.runtime.onMessage.addListener(async message => {
     }
   } else if (type === 'png') {
     const pngs = await Promise.all(
-      urls.map(url => fetch(url).then(response => response.arrayBuffer())),
+      urls.map((url) => fetch(url).then((response) => response.arrayBuffer())),
     )
     for (const png of pngs) {
       doc.addPage({
