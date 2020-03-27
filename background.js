@@ -56,10 +56,18 @@ chrome.runtime.onMessage.addListener(async message => {
   if (type === 'svg') {
     const svgs = await Promise.all(urls.map(url => fetch(url).then(response => response.text())))
     for (const svg of svgs) {
+      const matchedWidth = svg.match(/width="(.+px|\d+\.\d+)"/)
+      const width2 =
+        matchedWidth && matchedWidth[1] ? parseFloat(matchedWidth[1].replace('px', '')) : width
+      const matchedHeight = svg.match(/height="(.+px|\d+\.\d+)"/)
+      const height2 =
+        matchedHeight && matchedHeight[1] ? parseFloat(matchedHeight[1].replace('px', '')) : height
       doc.addPage({
-        size: [width, height],
+        size: [width2, height2],
       })
-      SVGtoPDF(doc, svg.replace(/width=".+px"/, '').replace(/height=".+px"/, ''), 0, 0)
+      SVGtoPDF(doc, svg, 0, 0, {
+        assumePt: true,
+      })
     }
   } else if (type === 'png') {
     const pngs = await Promise.all(
