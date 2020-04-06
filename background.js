@@ -1,4 +1,4 @@
-import sanitize from './lib/sanitize-filename.js'
+import { sanitize } from './lib/sanitize-filename.js'
 
 function cleanUpUrls(urls) {
   if (urls.find((url) => url.endsWith('svg'))) {
