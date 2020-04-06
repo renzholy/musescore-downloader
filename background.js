@@ -1,3 +1,5 @@
+import sanitize from './lib/sanitize-filename.js'
+
 function cleanUpUrls(urls) {
   if (urls.find((url) => url.endsWith('svg'))) {
     return {
@@ -21,7 +23,7 @@ chrome.runtime.onMessage.addListener(async (message) => {
 
   const detail = JSON.parse(message.detail)
   console.log(detail)
-  const filename = detail.json.metadata.title.replace(/\n/g, ' ')
+  const filename = sanitize(detail.json.metadata.title.replace(/\n/g, ' '))
 
   if (message.type === 'MIDI') {
     chrome.downloads.download({
