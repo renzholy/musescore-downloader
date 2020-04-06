@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "MuseScore™ Downloader [UNOFFICIAL]",
   "description": "Download sheet/midi/mp3 from musescore.com for free",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
