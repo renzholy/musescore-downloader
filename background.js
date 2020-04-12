@@ -60,12 +60,10 @@ chrome.runtime.onMessage.addListener(async (message) => {
       urls.map((url) => fetch(url).then((response) => response.text())),
     )
     for (const svg of svgs) {
-      const matchedWidth = svg.match(/width="(.+px|\d+\.\d+)"/)
-      const width2 =
-        matchedWidth && matchedWidth[1] ? parseFloat(matchedWidth[1].replace('px', '')) : width
-      const matchedHeight = svg.match(/height="(.+px|\d+\.\d+)"/)
-      const height2 =
-        matchedHeight && matchedHeight[1] ? parseFloat(matchedHeight[1].replace('px', '')) : height
+      const matchedWidth = svg.match(/width="(\d+\.\d+|\d+)(px)?"/)
+      const width2 = matchedWidth && matchedWidth[1] ? parseFloat(matchedWidth[1]) : width
+      const matchedHeight = svg.match(/height="(\d+\.\d+|\d+)(px)?"/)
+      const height2 = matchedHeight && matchedHeight[1] ? parseFloat(matchedHeight[1]) : height
       doc.addPage({
         size: [width2, height2],
       })
